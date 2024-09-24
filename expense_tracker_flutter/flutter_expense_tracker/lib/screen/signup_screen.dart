@@ -25,7 +25,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final _passwordController = TextEditingController();
 
   var authService = AuthService();
-
   var isLoader = false;
 
   Future<void> _submitSignup() async {
@@ -33,7 +32,6 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         isLoader = true;
       });
-
       var data = {
         "username": _userNameController.text,
         "email": _emailController.text,
@@ -41,13 +39,12 @@ class _SignupScreenState extends State<SignupScreen> {
         "password": _passwordController.text,
       };
 
-      await authService.createUser(data, context);
+      await AuthService().createUser(data, context);
       setState(() {
         isLoader = false;
       });
-      // ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
-
-      //     const SnackBar(content: Text('Sign up completed successfully')));
+      ScaffoldMessenger.of(_formKey.currentContext!)
+          .showSnackBar(SnackBar(content: Text('Sign up completed')));
     }
   }
 
@@ -63,7 +60,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget getBody(BuildContext context, Size size) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Center(
@@ -244,7 +241,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontSize: 13,
                             color: const Color.fromARGB(255, 48, 40, 40)),
                       ),
-                      const PasswordField(),
+                      PasswordField(controller: _passwordController),
                     ],
                   ),
                 ),
@@ -264,30 +261,28 @@ class _SignupScreenState extends State<SignupScreen> {
                     ],
                   ),
                   child: ElevatedButton(
-                      onPressed: () {
-                        isLoader ? print("Loading") : _submitSignup();
-                        log('test: $_userNameController');
-                      },
-                      style: ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                         backgroundColor: red,
                         minimumSize: Size(double.infinity, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      child: Center(
-                        child: isLoader
-                            ? Center(child: CircularProgressIndicator())
-                            : Text(
-                                "Sign up",
-                                style: TextStyle(
-                                  color: white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1,
-                                ),
-                              ),
-                      ))),
+                        )),
+                    onPressed: () {
+                      log('test $_passwordController');
+                      isLoader ? print("Loading") : _submitSignup();
+                    },
+                    child: isLoader
+                        ? Center(child: CircularProgressIndicator(color: white))
+                        : Text(
+                            "Sign up",
+                            style: TextStyle(
+                              color: white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                  )),
               SizedBox(height: 20),
               TextButton(
                 onPressed: () {
@@ -313,7 +308,9 @@ class _SignupScreenState extends State<SignupScreen> {
 }
 
 class PasswordField extends StatefulWidget {
-  const PasswordField({Key? key}) : super(key: key);
+  final Function(TextEditingController) onControllerReady;
+  const PasswordField({Key? key, required this.onControllerReady})
+      : super(key: key);
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();
@@ -323,6 +320,13 @@ class _PasswordFieldState extends State<PasswordField> {
   bool _obscureText = true;
   var appvalidator = Appvalidator();
   final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.onControllerReady(_passwordController);
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
