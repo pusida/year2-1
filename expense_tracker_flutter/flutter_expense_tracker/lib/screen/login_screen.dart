@@ -1,17 +1,40 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker/colors.dart';
+import 'package:flutter_expense_tracker/services/auth_services.dart';
 import 'package:flutter_expense_tracker/utils/appvalidator.dart';
 import 'package:flutter_expense_tracker/screen/signup_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void _submitLogin() {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  var authService = AuthService();
+  var isLoader = false;
+
+  Future<void> _submitLogin() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(_formKey.currentContext!).showSnackBar(
-          const SnackBar(content: Text('Login completed successfully')));
+      setState(() {
+        isLoader = true;
+      });
+      var data = {
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      };
+
+      await AuthService().login(data, context);
+      setState(() {
+        isLoader = false;
+      });
     }
   }
 
@@ -27,7 +50,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget getBody(BuildContext context, Size size) {
-    return SafeArea(
+    return SingleChildScrollView(
       child: Form(
         key: _formKey,
         child: Center(
@@ -35,8 +58,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               SizedBox(height: 80),
               Container(
-                width: 70,
-                height: 70,
+                width: 100,
+                height: 100,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
@@ -73,9 +96,9 @@ class LoginScreen extends StatelessWidget {
                             color: const Color.fromARGB(255, 48, 40, 40)),
                       ),
                       TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // controller: _email,
                           cursorColor: black,
                           style: TextStyle(
                               fontSize: 16,
@@ -120,7 +143,7 @@ class LoginScreen extends StatelessWidget {
                             fontSize: 13,
                             color: const Color.fromARGB(255, 48, 40, 40)),
                       ),
-                      const PasswordField(),
+                      PasswordField(controller: _passwordController),
                     ],
                   ),
                 ),
@@ -142,25 +165,28 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                   child: ElevatedButton(
-                      onPressed: _submitLogin,
-                      style: ElevatedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                         backgroundColor: red,
                         minimumSize: Size(double.infinity, 50),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            color: white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1,
+                        )),
+                    onPressed: () {
+                      log('test $_passwordController');
+                      isLoader ? print("Loading") : _submitLogin();
+                    },
+                    child: isLoader
+                        ? Center(child: CircularProgressIndicator(color: white))
+                        : Text(
+                            "Login",
+                            style: TextStyle(
+                              color: white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 1,
+                            ),
                           ),
-                        ),
-                      ))),
+                  )),
               SizedBox(
                 height: 20,
               ),
@@ -187,47 +213,47 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class PasswordField extends StatefulWidget {
-  const PasswordField({Key? key}) : super(key: key);
-
-  @override
-  _PasswordFieldState createState() => _PasswordFieldState();
-}
-
-class _PasswordFieldState extends State<PasswordField> {
-  bool _obscureText = true;
-
-  var appvalidator = Appvalidator();
+class PasswordField extends StatelessWidget {
+  final TextEditingController controller;
+  const PasswordField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.visiblePassword,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      obscureText: _obscureText,
-      cursorColor: Colors.black,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-      ),
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        prefixIcon: Icon(Icons.lock_outline_rounded, color: Colors.black),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
+    bool _obscureText = true;
+    var appvalidator = Appvalidator();
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.visiblePassword,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: _obscureText,
+          cursorColor: Colors.black,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-        ),
-        hintText: "Password",
-      ),
-      validator: appvalidator.validatePassword,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(Icons.lock_outline_rounded, color: Colors.black),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            ),
+            hintText: "Password",
+          ),
+          validator: appvalidator.validatePassword,
+        );
+      },
     );
   }
 }

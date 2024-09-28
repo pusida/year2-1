@@ -45,7 +45,7 @@ def bubble_sort(inp):
 
 target, num_str = input("Enter Input : ").split("/")
 nums = list(map(int, num_str.split()))
-target = int(target)#jj
+target = int(target)
 
 result = find_subsets(nums, target)
 if result:

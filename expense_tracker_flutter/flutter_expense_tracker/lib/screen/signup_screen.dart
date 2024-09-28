@@ -37,14 +37,15 @@ class _SignupScreenState extends State<SignupScreen> {
         "email": _emailController.text,
         "phone": _phoneController.text,
         "password": _passwordController.text,
+        "remainingAmount": 0,
+        "totalIncome": 0,
+        "totalExpenses": 0,
       };
 
       await AuthService().createUser(data, context);
       setState(() {
         isLoader = false;
       });
-      ScaffoldMessenger.of(_formKey.currentContext!)
-          .showSnackBar(SnackBar(content: Text('Sign up completed')));
     }
   }
 
@@ -283,7 +284,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ),
                   )),
-              SizedBox(height: 20),
+              SizedBox(height: 7),
               TextButton(
                 onPressed: () {
                   Navigator.push(
@@ -295,7 +296,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   "Login",
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 15,
+                      fontSize: 16,
                       color: const Color.fromARGB(255, 48, 40, 40)),
                 ),
               ),
@@ -307,56 +308,47 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 }
 
-class PasswordField extends StatefulWidget {
-  final Function(TextEditingController) onControllerReady;
-  const PasswordField({Key? key, required this.onControllerReady})
-      : super(key: key);
-
-  @override
-  _PasswordFieldState createState() => _PasswordFieldState();
-}
-
-class _PasswordFieldState extends State<PasswordField> {
-  bool _obscureText = true;
-  var appvalidator = Appvalidator();
-  final _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    widget.onControllerReady(_passwordController);
-  }
+class PasswordField extends StatelessWidget {
+  final TextEditingController controller;
+  const PasswordField({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: _passwordController,
-      keyboardType: TextInputType.visiblePassword,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      obscureText: _obscureText,
-      cursorColor: Colors.black,
-      style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
-      ),
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        prefixIcon: Icon(Icons.lock_outline_rounded, color: Colors.black),
-        suffixIcon: IconButton(
-          icon: Icon(
-            _obscureText ? Icons.visibility_off : Icons.visibility,
+    bool _obscureText = true;
+    var appvalidator = Appvalidator();
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.visiblePassword,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: _obscureText,
+          cursorColor: Colors.black,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
             color: Colors.black,
           ),
-          onPressed: () {
-            setState(() {
-              _obscureText = !_obscureText;
-            });
-          },
-        ),
-        hintText: "Password",
-      ),
-      validator: appvalidator.validatePassword,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            prefixIcon: Icon(Icons.lock_outline_rounded, color: Colors.black),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_off : Icons.visibility,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            ),
+            hintText: "Password",
+          ),
+          validator: appvalidator.validatePassword,
+        );
+      },
     );
   }
 }

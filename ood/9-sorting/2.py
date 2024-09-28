@@ -1,10 +1,8 @@
-inp = [int(i) for i in input("Enter Input : ").split()]
-len_inp = len(inp)
 
 
 def selection(inp):
 
-    sort_largest_to_end(len_inp-1)
+    sort_largest_to_end(len(inp)-1)
 
 def sort_largest_to_end(last):
 
@@ -31,5 +29,6 @@ def find_biggest(inp, i, last, biggest_i):
     return find_biggest(inp, i+1, last, biggest_i)
 
 
+inp = [int(i) for i in input("Enter Input : ").split()]
 selection(inp)
 print(inp)
