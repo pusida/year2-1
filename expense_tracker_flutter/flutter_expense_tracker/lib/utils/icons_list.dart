@@ -4,16 +4,32 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class AppIcons {
   final List<Map<String, dynamic>> homeExpensesCategories = [
     {
-      "name": "Gas Filling",
-      "icon": FontAwesomeIcons.gasPump,
-    },
-    {
       "name": "Food",
       "icon": FontAwesomeIcons.bowlFood,
     },
     {
       "name": "Shopping",
       "icon": FontAwesomeIcons.bagShopping,
+    },
+    {
+      "name": "Game",
+      "icon": FontAwesomeIcons.gamepad,
+    },
+    {
+      "name": "home",
+      "icon": FontAwesomeIcons.house,
+    },
+    {
+      "name": "medical",
+      "icon": FontAwesomeIcons.kitMedical,
+    },
+    {
+      "name": "Education",
+      "icon": FontAwesomeIcons.school,
+    },
+    {
+      "name": "Internet",
+      "icon": FontAwesomeIcons.wifi,
     },
     {
       "name": "bill",
@@ -24,8 +40,8 @@ class AppIcons {
       "icon": FontAwesomeIcons.briefcase,
     },
     {
-      "name": "home",
-      "icon": FontAwesomeIcons.house,
+      "name": "Gas Filling",
+      "icon": FontAwesomeIcons.gasPump,
     },
     {"name": "Others", "icon": FontAwesomeIcons.poo},
   ];

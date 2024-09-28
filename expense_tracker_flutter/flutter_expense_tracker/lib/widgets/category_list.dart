@@ -18,7 +18,7 @@ class _TimeLineMonthState extends State<CategoryList> {
 
   final scrollController = ScrollController();
   var appIcons = AppIcons();
-  
+
   var addCat = {
     "name": "All",
     "icon": FontAwesomeIcons.cartPlus,
