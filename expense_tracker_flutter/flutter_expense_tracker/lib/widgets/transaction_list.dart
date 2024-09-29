@@ -35,13 +35,23 @@ class TransactionList extends StatelessWidget {
         future: query.limit(150).get(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Something went wrong'));
+            return Center(
+                child: Text('Something went wrong',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 255, 254, 254))));
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
                 child: CircularProgressIndicator(
                     color: const Color.fromARGB(255, 54, 5, 5)));
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No transaction found.'));
+            return const Center(
+                child: Text(
+              'No transaction found.',
+              style: TextStyle(
+                  fontSize: 16, color: Color.fromARGB(255, 255, 254, 254)),
+            ));
           }
           var data = snapshot.data!.docs;
 

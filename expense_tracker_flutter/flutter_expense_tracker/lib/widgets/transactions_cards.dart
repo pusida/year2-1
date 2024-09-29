@@ -44,7 +44,11 @@ class RecentTransactionsList extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.waiting) {
             return Text("Loading");
           } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('No transaction found.'));
+            return const Center(
+                child: Text('No transaction found.',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 255, 254, 254))));
           }
           var data = snapshot.data!.docs;
 

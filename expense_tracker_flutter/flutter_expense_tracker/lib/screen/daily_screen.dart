@@ -33,7 +33,6 @@ class _DailyScreenState extends State<DailyScreen> {
   }
 
   final userId = FirebaseAuth.instance.currentUser!.uid;
-  // final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
   _dialogBuilder(BuildContext context) {
     return showDialog(
@@ -58,7 +57,7 @@ class _DailyScreenState extends State<DailyScreen> {
           floatingActionButton: SafeArea(
               child: SizedBox(
             child: FloatingActionButton(
-              backgroundColor: const Color.fromARGB(241, 207, 82, 57),
+              backgroundColor: const Color.fromARGB(209, 207, 82, 57),
               onPressed: () {
                 _dialogBuilder(context);
               },
@@ -73,10 +72,6 @@ class _DailyScreenState extends State<DailyScreen> {
               child: SingleChildScrollView(
             child: Column(
               children: [
-                // Text(
-                //   "User ID: $userId", // แสดงค่า userId บนหน้าจอ
-                //   style: TextStyle(fontSize: 18),
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -106,7 +101,7 @@ class _DailyScreenState extends State<DailyScreen> {
                             style: TextStyle(
                               fontSize: 19,
                               fontWeight: FontWeight.bold,
-                              color: mainFontColor,
+                              color: const Color.fromARGB(255, 253, 248, 248),
                             ),
                           ),
                         ],
@@ -123,20 +118,3 @@ class _DailyScreenState extends State<DailyScreen> {
     );
   }
 }
-    //  body: Padding(
-    //         padding: EdgeInsets.only(top: 20, bottom: 25, right: 20, left: 20),
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.end,
-    //           children: [
-    //             IconButton(
-    //                 onPressed: () {
-    //                   logOut();
-    //                 },
-    //                 icon: isLogoutLoading
-    //                     ? CircularProgressIndicator()
-    //                     : Icon(Icons.logout_outlined)),
-    //             // UpDaily(),
-    //             TransactionCard()
-    //           ],
-    //         ),
-    //       ),

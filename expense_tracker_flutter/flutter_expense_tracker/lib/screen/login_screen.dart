@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: const Color.fromARGB(255, 196, 190, 190),
       body: getBody(context, size),
     );
   }
@@ -56,18 +56,15 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 80),
+              SizedBox(height: 20),
               Container(
-                width: 100,
-                height: 100,
+                width: 250,
+                height: 250,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: AssetImage("images/profile_cat.jpg"),
-                        fit: BoxFit.cover)),
-              ),
-              SizedBox(
-                height: 80,
+                        image: AssetImage("images/3.png"),
+                        fit: BoxFit.contain)),
               ),
               Container(
                 width: double.infinity,
@@ -172,7 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(25),
                         )),
                     onPressed: () {
-                      log('test $_passwordController');
                       isLoader ? print("Loading") : _submitLogin();
                     },
                     child: isLoader

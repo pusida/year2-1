@@ -64,15 +64,14 @@ class Cards extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  width: 70,
-                  height: 70,
+                  width: 150,
+                  height: 150,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage("images/profile_cat.jpg"),
-                          fit: BoxFit.cover)),
+                          image: AssetImage("images/battbg.png"),
+                          fit: BoxFit.contain)),
                 ),
-                SizedBox(height: 15),
                 Container(
                   width: (size.width - 40) * 0.6,
                   child: Column(

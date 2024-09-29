@@ -40,14 +40,19 @@ class _TransactionScreenState extends State<TransactionScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Center(
-            child: Text(
-              "Summery",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                  color: const Color.fromARGB(255, 48, 40, 40)),
-            ),
+          elevation: 0,
+          leading: Icon(
+            Icons.monetization_on_rounded,
+            color: Color.fromARGB(201, 48, 40, 40),
+            size: 25,
+          ),
+          centerTitle: true,
+          title: Text(
+            "Summery",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+                color: const Color.fromARGB(255, 48, 40, 40)),
           ),
         ),
         body: Column(

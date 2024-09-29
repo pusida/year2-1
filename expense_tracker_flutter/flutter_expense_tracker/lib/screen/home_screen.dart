@@ -1,9 +1,8 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expense_tracker/colors.dart';
 import 'package:flutter_expense_tracker/screen/daily_screen.dart';
+import 'package:flutter_expense_tracker/screen/one_day_screen.dart';
 import 'package:flutter_expense_tracker/screen/transaction_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> pages = [
     DailyScreen(),
     TransactionScreen(),
+    OneDayScreen(),
   ];
 
   @override
@@ -27,17 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color.fromARGB(0, 255, 255, 255),
       body: getBody(),
       bottomNavigationBar: getFooter(),
-      // floatingActionButton: SafeArea(
-      //     child: SizedBox(
-      //         // child: FloatingActionButton(
-      //         //   onPressed: () {},
-      //         //   child: Icon(
-      //         //     Icons.add,
-      //         //     size: 20,
-      //         //   ),
-      //         // ),
-      //         )),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
@@ -49,31 +38,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget getFooter() {
-    List<IconData> iconItems = [
-      CupertinoIcons.house_fill,
-      CupertinoIcons.chart_bar_circle_fill,
-      // CupertinoIcons.chart_pie
-    ];
-    return AnimatedBottomNavigationBar(
+    return BottomNavigationBar(
+      currentIndex: pageIndex,
       onTap: (index) {
         setTabs(index);
       },
       backgroundColor: const Color.fromARGB(255, 70, 28, 28),
-      icons: iconItems,
-      splashColor: secondary,
-      activeColor: const Color.fromARGB(223, 216, 114, 94),
-      inactiveColor: const Color.fromARGB(255, 205, 197, 197).withOpacity(1.0),
-      gapLocation: GapLocation.center,
-      activeIndex: pageIndex,
-      notchSmoothness: NotchSmoothness.softEdge,
-      leftCornerRadius: 20,
-      iconSize: 30,
-      rightCornerRadius: 20,
-      elevation: 2,
+      selectedItemColor: const Color.fromARGB(223, 216, 114, 94),
+      unselectedItemColor:
+          const Color.fromARGB(255, 205, 197, 197).withOpacity(1.0),
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.house_fill),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.chart_bar_circle_fill),
+          label: 'Summary',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.chart_pie_fill),
+          label: 'Chart',
+        ),
+      ],
     );
   }
 
-  setTabs(index) {
+  setTabs(int index) {
     setState(() {
       pageIndex = index;
     });

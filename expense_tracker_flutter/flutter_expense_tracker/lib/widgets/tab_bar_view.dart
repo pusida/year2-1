@@ -32,12 +32,7 @@ class TypeTabBar extends StatelessWidget {
                         color: const Color.fromARGB(186, 243, 97, 68),
                         borderRadius: BorderRadius.circular(50.0),
                       ),
-                      // indicatorColor: Colors.transparent,
-                      // indicatorColor: const Color.fromARGB(
-                      //     255, 46, 12, 199), // เปลี่ยนสีของ indicator
-                      labelColor: const Color.fromARGB(
-                          255, 96, 23, 23), // เปลี่ยนสีข้อความที่เลือก
-                      // unselectedLabelColor: const Color.fromARGB(255, 20, 2, 2),
+                      labelColor: const Color.fromARGB(255, 96, 23, 23),
                       tabs: [
                         Tab(
                             child: Center(
